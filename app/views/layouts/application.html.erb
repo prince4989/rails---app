@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= full_title(yield(:title)) %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= turbo_include_tags %>
+
+  <%= yield :head %>
+
+  <!-- Manifest -->
+  <%= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) if Rails.env.production? %>
+
+  <!-- Icons -->
+  <link rel="icon" href="/icon.png" type="image/png">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.png">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
+  <%= stylesheet_link_tag "custom", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+  <!-- Importmap JS (loads application.js) -->
+  <%= javascript_importmap_tags %>
+</head>
+
+<body data-turbo="false">
+
+<%= render 'layouts/header' %>
+
+<div class="container">
+  <% flash.each do |type, message| %>
+    <% bootstrap_class = case type.to_sym
+                         when :notice then 'info'
+                         when :alert then 'danger'
+                         when :success then 'success'
+                         when :error then 'danger'
+                         else type
+                         end %>
+    <div class="alert alert-<%= bootstrap_class %> alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+
+  <%= yield %>
+</div>
+
+<%= render 'layouts/footer' %>
+
+<!-- Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>

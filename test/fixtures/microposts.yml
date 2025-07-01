@@ -1,0 +1,20 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  content: MyText
+  user: one
+
+two:
+  content: MyText
+  user: two
+
+most_recent:
+  content: "This is the most recent micropost"
+  user: example_user
+  created_at: <%= Time.zone.now %>
+
+older_post:
+  content: "This is an older micropost"
+  user: example_user
+  created_at: <%= 1.hour.ago %>
+
